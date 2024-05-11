@@ -129,6 +129,9 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
 5. **Model Selection**: Random Forest Regression was chosen for its robustness in handling nonlinear relationships and it being a ensemble method it handles overfitting and is good in generalisation to unseen data.
 
 
+Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
+
+
 # Plots
 
 <table>
@@ -139,18 +142,11 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
     <td align="center">Random Forest with Time Series features</td>
   </tr>
   <tr>
-    <td align="center"><img width="763" alt="Linear Regression" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/5ddcbb06-677c-4d70-913a-549ea4e77aec"></td>
-    <td align="center"><img width="763" alt="Random Forest" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/bed239f5-f8ad-4b82-b7a8-d90b1ccbf1fd"></td>
-    <td align="center"><img width="763" alt="Xg Boost" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/3c2c0e61-828f-464c-a48d-5567f74cfce1"></td>
-    <td align="center"><img width="763" alt="Random Forest with Time Series features" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6"></td>
+    <td align="center"><img width="1000" alt="Linear Regression" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/5ddcbb06-677c-4d70-913a-549ea4e77aec"></td>
+    <td align="center"><img width="1000" alt="Random Forest" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/bed239f5-f8ad-4b82-b7a8-d90b1ccbf1fd"></td>
+    <td align="center"><img width="1000" alt="Xg Boost" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/3c2c0e61-828f-464c-a48d-5567f74cfce1"></td>
+    <td align="center"><img width="1000" alt="Random Forest with Time Series features" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6"></td>
   </tr>
 </table>
-
-
-
-
-
-Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
-
 
    

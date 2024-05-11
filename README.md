@@ -130,8 +130,20 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
 
 
 # Plots
+
+Linear Regression
+<img width="763" alt="Screenshot 2024-05-12 at 1 48 35 AM" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/5ddcbb06-677c-4d70-913a-549ea4e77aec">
+
+Random Forest 
+<img width="763" alt="Screenshot 2024-05-12 at 1 49 19 AM" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/bed239f5-f8ad-4b82-b7a8-d90b1ccbf1fd">
+
+Xg Boost
+<img width="763" alt="Screenshot 2024-05-12 at 1 49 31 AM" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/3c2c0e61-828f-464c-a48d-5567f74cfce1">
+
 Random Forest with Time Series features
 <img width="763" alt="Screenshot 2024-05-12 at 1 47 16 AM" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6">
+
+
 
 
 Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.

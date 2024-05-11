@@ -1,4 +1,4 @@
-### Data Description
+# Data Description
 
 Each row in the dataset represents the sourcing of one unit of a particular product combination. A unique product combination is defined by attributes in columns A, B, C, D, E, and F. Therefore, multiple rows with the same combination may exist in the training dataset, where each row represents the purchase of one unit.
 
@@ -10,7 +10,7 @@ The training dataset spans from July 2020 to May 2021, while the test dataset co
 
 ## 1. Data Understanding and Exploratory Data Analysis (EDA):
 - Explored the dataset dimensions/shape, checked for null values, and examined the data types of the features of the dataset.
-- Used the pandas describe() method to understand feature datatypes, identifying anomalies like the min value of Sourcing Cost column being negative.
+- Used the pandas describe() method to understand feature datatypes, identifying anomalies like the min value of the Sourcing Cost column being negative.
 - Conducted Univariate analysis and Multivariate Analysis, including frequency counts, box plots for outlier detection, and histplots for distribution of the Sourcing Cost column.
 - Investigated negative values in 'Sourcing Cost' and considered removal or replacement strategies.
 
@@ -19,10 +19,10 @@ The training dataset spans from July 2020 to May 2021, while the test dataset co
 - For Outlier detection, the IQR method was used, with two approaches:
   - Removal/Trimming of the outliers from the data.
   - Clipping outliers to lower and upper bound.
-- Resulted in four sets of data for further analysis. And for both of these two approaches, I handled the negative sourcing cost values as follows:
+- Resulted in four sets of data for further analysis. For both of these two approaches, I handled the negative sourcing cost values as follows:
 
 ### Handling Negative Sourcing Cost Values:
-- For handling the negative values, two approaches were considered: removal of the negative vlaues or taking the absolute value fo them.
+- For handling the negative values, two approaches were considered: removal of the negative values or taking the absolute value fo them.
 - Since the number of negative values was relatively small compared to the total dataset size, removing them was chosen as it had minimal impact.
 
 So after pre-processing, I had four sets of data:
@@ -34,8 +34,8 @@ So after pre-processing, I had four sets of data:
 
 ## 3. Correlation and Association Analysis:
 - Multicollinearity is a significant concern in regression tasks, so I checked the correlation between the independent variables and the association between the independent variables and the dependent variable:
-  - Used Kruskal test to assess 'Sourcing Cost' association with categorical variables.
-  - Applied Cramer's V for measuring categorical variable associations, identifying strong correlations.
+  - Used the Kruskal test to assess the 'Sourcing Cost' association with categorical variables.
+  - Applied Cramer's V for measuring categorical variable associations, and identifying strong correlations.
   - Identified and removed the 'Area' column due to strong correlations with other categorical variables, mitigating multicollinearity concerns.
 
 ## 4. Modelling 
@@ -72,9 +72,9 @@ So after pre-processing, I had four sets of data:
     Overall, the ensemble models, particularly Random Forest and XGBoost, outperformed the Linear Regression model in predicting the sourcing costs. However, even the best-performing models (RFC and XGB) showed limitations in accurately predicting the sourcing costs, as evidenced by the moderate R2 scores and relatively high RMSE values on the test dataset
 
    - ### 2nd approach - 
-   In the second approach, I grouped the duplicate rows based on all the categorical columns. For each group, I aggregated the sourcing costs, summing them to obtain the total sourcing cost for that group. Additionally, I counted the quantity of each product within the group. This was achieved by counting the number of rows corresponding to each group and storing the counts in a new column named "Quantity." Finally, I calculated and created another feature as the average sourcing cost per unit by dividing the total sourcing cost by the quantity for each group which was then used in training of the model, Otherwise directly using the summed up sourcing cost column would have largely deviated from the original values.
+   In the second approach, I grouped the duplicate rows based on all the categorical columns. For each group, I aggregated the sourcing costs, summing them to obtain the total sourcing cost for that group. Additionally, I counted the quantity of each product within the group. This was achieved by counting the number of rows corresponding to each group and storing the counts in a new column named "Quantity." Finally, I calculated and created another feature as the average sourcing cost per unit by dividing the total sourcing cost by the quantity for each group which was then used in training of the model, Otherwise directly using the summed-up sourcing cost column would have largely deviated from the original values.
 
-   This approach led to very good `r2_score` of `0.95` on the training set and a `rmse` of `40.2` but again when applied on test data the model failed to perform well and the `r2_score` dropped down to `0.40`. The plots below display that the predictions and the original data points are not overlapping indicating the failure of the model to capture the true relationship of data.
+   This approach led to a very good `r2_score` of `0.95` on the training set and a `rmse` of `40.2` but again when applied on test data the model failed to perform well and the `r2_score` dropped down to `0.40`. The plots below display that the predictions and the original data points are not overlapping indicating the failure of the model to capture the true relationship of data.
 
    - ### 3rd approach
    This approach included a combination of Time Series analytics and regression. As we had a datetime column in the dataset, I thought to make use of it. So first of all as we do in a time series problem made the index of the dataframe to `Month of Sourcing` column and then created additional features for modelling
@@ -90,11 +90,9 @@ So after pre-processing, I had four sets of data:
     - Month, Year, and Quarter from the index
       -  For seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality present in the data.
     
-    After this data preperation Random Forest Algorithm for applied for predicting the sourcing cost value. This approach gave the best reuslt amongst all. A `r2_score` of `0.99` and  `rmse` of `1.78` on the training data and `r2_score` of `0.98` and `rmse` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
+    After this data preparation Random Forest Algorithm for applied to predict the sourcing cost value. This approach gave the best results amongst all. An `r2_score` of `0.99` and  `rmse` of `1.78` on the training data and `r2_score` of `0.98` and `rmse` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
 
-## Final Approach: Time Series Analytics and Regression
-
-
+# Final Approach: Time Series Analytics and Regression
 
 ### Data Preprocessing for Time Series Analysis:
 
@@ -106,7 +104,7 @@ So after pre-processing, I had four sets of data:
 ### Model Selection and Training:
 
 - Applied Random Forest Algorithm for its effectiveness in handling nonlinear relationships and good generalisation capabilities
-- Trained the model on preprocessed dataset containing lagged features, rolling statistics, and temporal attributes.
+- Trained the model on a preprocessed dataset containing lagged features, rolling statistics, and temporal attributes.
 
 ### Model Evaluation and Performance:
 

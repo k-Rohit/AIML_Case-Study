@@ -149,4 +149,24 @@ Using the rolling statistics, lagged sourcing cost values, quantile values and t
   </tr>
 </table>
 
+<div style="display: flex; justify-content: center; align-items: center;">
+    <div style="margin-right: 20px;">
+        <p>Linear Regression</p>
+        <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/5ddcbb06-677c-4d70-913a-549ea4e77aec">
+    </div>
+    <div style="margin-right: 20px;">
+        <p>Random Forest</p>
+        <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/bed239f5-f8ad-4b82-b7a8-d90b1ccbf1fd">
+    </div>
+    <div style="margin-right: 20px;">
+        <p>Xg Boost</p>
+        <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/3c2c0e61-828f-464c-a48d-5567f74cfce1">
+    </div>
+    <div>
+        <p>Random Forest with Time Series features</p>
+        <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6">
+    </div>
+</div>
+
+
    

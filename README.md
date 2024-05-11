@@ -128,6 +128,12 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
    
 5. **Model Selection**: Random Forest Regression was chosen for its robustness in handling nonlinear relationships and it being a ensemble method it handles overfitting and is good in generalisation to unseen data.
 
+
+# Plots
+Random Forest with Time Series features
+<img width="763" alt="Screenshot 2024-05-12 at 1 47 16 AM" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6">
+
+
 Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
 
 

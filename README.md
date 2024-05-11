@@ -91,4 +91,46 @@ So after pre-processing, I had four sets of data:
       -  For seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality present in the data.
     
     After this data preperation Random Forest Algorithm for applied for predicting the sourcing cost value. This approach gave the best reuslt amongst all. A `r2_score` of `0.99` and  `rmse` of `1.78` on the training data and `r2_score` of `0.98` and `rmse` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
+
+## Final Approach: Time Series Analytics and Regression
+
+
+
+### Data Preprocessing for Time Series Analysis:
+
+- Transformed dataset into time series format by setting index to 'Month of Sourcing'.
+- Created lagged features for 'Sourcing Cost' to capture historical values.
+- Calculated rolling statistics to understand trend and variability over time.
+- Extracted additional temporal features to capture seasonal patterns and trends.
+
+### Model Selection and Training:
+
+- Applied Random Forest Algorithm for its effectiveness in handling nonlinear relationships and good generalisation capabilities
+- Trained the model on preprocessed dataset containing lagged features, rolling statistics, and temporal attributes.
+
+### Model Evaluation and Performance:
+
+- Achieved a high R2 score and low RMSE on both training and test datasets, indicating strong fit and generalization. 
+`R2_score` of `0.99` and  `RMSE` of `1.78` on the training data and `R2_score` of `0.98` and `RMSE` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
+- Accurate predictions based on historical data and temporal patterns provided valuable insights for decision-making.
+
+### Interpretation and Insights:
+
+Overall, the adoption of a Time Series-based approach combined with Random Forest Regression proved highly effective in predicting sourcing costs and understanding the true relationship of the data.
+
+### Why Time Series Analytics and Regression?
+
+1. **Sequential Nature of Data**: Each row represented sourcing of a product over different months, making it suitable for time series analysis and applying the time series techniques.
+   
+2. **Temporal Patterns and Trends**: Leveraged the temporal order of data which helped to capture underlying patterns and trends influencing the sourcing costs.
+   
+3. **Historical Insights**: The use of lagged features captured historical sourcing costs, allowing the model to learn from past observations.
+   
+4. **Seasonality and Cyclicality**: Extraction of temporal features like month, year, and quarter enabled capturing seasonal patterns and trends at different granularities.
+   
+5. **Model Selection**: Random Forest Regression was chosen for its robustness in handling nonlinear relationships and it being a ensemble method it handles overfitting and is good in generalisation to unseen data.
+
+Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
+
+
    

@@ -103,7 +103,7 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
 
 ### Why Time Series Analytics and Regression?
 
-1. **Sequential Nature of Data**: Each row represented sourcing of a product over different months, making it suitable for time series analysis and applying the time series techniques.
+1. **Sequential Nature of Data**: Each row represented the sourcing cost of a product over different months, making it suitable for time series analysis and applying the time series techniques.
    
 2. **Temporal Patterns and Trends**: Leveraged the temporal order of data which helped to capture underlying patterns and trends influencing the sourcing costs.
    
@@ -114,7 +114,7 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
 5. **Model Selection**: Random Forest Regression was chosen for its robustness in handling nonlinear relationships and it being a ensemble method it handles overfitting and is good in generalisation to unseen data.
 
 
-Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
+Using the rolling statistics, lagged sourcing cost values, quantile values and the month, and year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therefore making this approach suitable for adoption.
 
 
 # Plots showing how different models are performing on test data.
@@ -135,6 +135,10 @@ Using the rolling statistics, lagged sourcing cost values, quantile values and t
     <div style="flex: 0 0 auto;">
         <p>Random Forest with Time Series features</p>
         <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/cfdbe215-cf6c-40a4-92f4-c4e2c5623db6">
+    </div>
+  <div style="flex: 0 0 auto;">
+        <p>Xg Boost with Time Series features</p>
+        <img width="500" src="https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/73c6b50d-2e34-42db-a396-eedb045f8a06">
     </div>
 </div>
 

@@ -56,12 +56,30 @@ The training dataset spans from July 2020 to May 2021, while the test dataset co
   | XGB   | 0.55           | 37.03      | 0.36          | 41.05     |
 
 ### 2nd Approach
-- **Aggregated Sourcing Costs** by summing them for each group of duplicate rows based on categorical columns and created a new feature 'Average Sourcing Cost per Unit'.
-- Achieved a **r2_score of 0.95 on the training set** but only **0.40 on the test set**.
+- In the second approach, I grouped the duplicate rows based on all the categorical columns. For each group, I aggregated the sourcing costs, summing them to obtain the total sourcing cost for that group. Additionally, I counted the quantity of each product within the group. This was achieved by counting the number of rows corresponding to each group and storing the counts in a new column named "Quantity." Finally, I calculated and created another feature as the average sourcing cost per unit by dividing the total sourcing cost by the quantity for each group which was then used in training of the model, Otherwise directly using the summed up sourcing cost column would have largely deviated from the original values
+- This approach led to very good `r2_score` of `0.95` on the training set and a `rmse` of `40.2` but again when applied on test data the model failed to perform well and the `r2_score` dropped down to `0.40`. The plots below display that the predictions and the original data points are not overlapping indicating the failure of the model to capture the true relationship of data.
 
 ### 3rd Approach
-- Combined **Time Series analytics with regression** using the 'Month of Sourcing' as the dataframe index and creating additional features like lagged values and rolling statistics.
-- **Random Forest Algorithm** predicted sourcing cost values with an R2 score of 0.99 and RMSE of 1.78 on training data and R2 score of 0.98 and RMSE of 5.21 on test data.
+- This approach combines **Time Series analytics and regression**, leveraging the datetime column in the dataset. The 'Month of Sourcing' column was set as the DataFrame index to facilitate time series analysis. Additional features were created for modeling:
+  
+  - **Lagged Features for 'Sourcing Cost'**
+    - Captured the historical values of sourcing costs for the past three months. These lagged features help the model consider the impact of past sourcing costs on current values, potentially improving prediction accuracy.
+
+  - **Rolling Mean and Standard Deviation**
+    - Calculated over a rolling window of 3 months to capture the trend and variability in sourcing costs. This provides the model with additional information to learn from.
+
+  - **Rolling Quantiles**
+    - Used to understand the spread and central tendency of the data over time.
+
+  - **Extracting Time Components**
+    - Extracted Month, Year, and Quarter from the index for seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality in the data.
+
+- After preparing the data, a **Random Forest Algorithm** was applied to predict the sourcing cost. This approach yielded the best results among all tested methods:
+  - **Training Data:** Achieved an `r2_score` of `0.99` and an `rmse` of `1.78`.
+  - **Test Data:** Achieved an `r2_score` of `0.98` and an `rmse` of `5.21`.
+
+- The plot of the original sourcing values and the predictions shows that this model was able to capture the relationship of the data effectively, performing well in both training and testing phases.
+
 
 
 # Final Approach: Time Series Analytics and Regression

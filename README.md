@@ -1,5 +1,11 @@
 # Methodology and Approaches
 
+# Methodology Diagram
+![Methodology Diagram](https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/74b2f442-ee3c-4480-affc-e1818a833643)
+
+
+
+
 ## 1. Framing of the problem statement
 
 The crux of the problem lies in forecasting the sourcing cost values for the month of June 2021, utilizing the dataset spanning from July 2020 to May 2021.
@@ -105,6 +111,8 @@ So this approach included a combination of Time Series analytics and regression.
   - Month, Year, and Quarter from the index  -  For seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality present in the data.
     
   After this data preparation and feature engineering, Random Forest Algorithm and XGBoost Algorithm were applied for predicting the sourcing cost value. This approach gave the best result amongst all the approaches and models training. For Random Forest, the `R2 score` was `0.998` and `RMSE `was `1.78` on the training data, while on the test data, the `R2 score` was `0.98` and RMSE was `5.21`. The plot of the original sourcing values and the predicted values also shows that the Random Forest model was able to capture the relationship of the data, hence performing well. Similarly, for XGBoost, the `R2 score` was `0.993` and `RMSE` was `4.19` on the training data, while on the test data, the R2 score was `0.994` and `RMSE` was `3.89`. The plot of the original Sourcing Cost values and the predicted values also shows that the XGBoost model more prominently captured the patterns in the data. Another interesting observation was the time both alorithm took - XgBoost was way faster than Random Forest while training both.
+
+
 
 
 ## Final Approach: Time Series Analytics and Regression

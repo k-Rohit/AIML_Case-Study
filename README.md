@@ -3,9 +3,6 @@
 # Methodology Diagram
 ![Methodology Diagram](https://github.com/k-Rohit/AP_Moller_Maersk_Assignment/assets/93335681/74b2f442-ee3c-4480-affc-e1818a833643)
 
-
-
-
 ## 1. Framing of the problem statement
 
 The crux of the problem lies in forecasting the sourcing cost values for the month of June 2021, utilizing the dataset spanning from July 2020 to May 2021.
@@ -50,8 +47,8 @@ For Outlier detection, the IQR (InterQuartile Range) method was used, with two a
   - Cramer's V was utilized to measure the strength of association among categorical variables, identifying strong associations that might affect model interpretation.
   - I removed the 'Area Code' column after identifying its strong association with other categorical variables, which could lead to issues similar to multicollinearity when categorical variables are converted to dummy variables for regression analysis.
 
-## 6. Modelling
-### Data Preparation for modelling:
+## 6. Modeling
+### Data Preparation for modeling:
 After removing the outliers and the negative sourcing values, I dropped the Area Code and the Month of Sourcing Column. The reason for dropping area code was as previously mentioned that it was strongly associated with the other categorical variables which might have hampered  the model’s performance. The reason behind removing the Month of Sourcing Column was that in the training data we had 11 months but in test data we just have 1 month so if we consider one hot encoding it the number of features in the train set would be greater than in the test set which would give error when predicting on the test set. Also if Label Encoder is used there would be 11 different values in the train set but a single value in the test set which could again cause discrepancy and that will hamper the performance of the model.
 
 Now lets see the different approaches adopted - 
@@ -68,37 +65,117 @@ The first approach involved implementing regression models such as Linear Regres
 
     In contrast, both Random Forest Regressor and XGBoost Regressor models performed significantly better than Linear Regression. They demonstrated higher R2 scores on both the training and test datasets as compared to the Linear Regression model, indicating a better fitting to the data. RFC achieved an R2 score of 0.56 on the training data and 0.375 on the test data, with corresponding RMSE values of 37.02 and 41.04. Similarly, XGB achieved R2 scores of 0.55 on the training data and 0.36 on the test data, with RMSE values of 37.03 and 41.05, respectively. Although they performed better than the LR model still the results on the test data are not satisfactory, and the plot also conveys the same.
   
-#### Results Table:
-- Train Data:
+<h4>Results Table:</h4>
 
-   | Model | R2 Score | RMSE  |
-   |-------|----------|-------|
-   | LR    | 0.37     | 42.78 |
-   | RFC   | 0.56     | 37.02 |
-   | XGB   | 0.55     | 37.03 |
+<h5>Train Data:</h5>
 
-- Test Data:
+<table>
+  <tr>
+    <th>Model</th>
+    <th>R2 Score</th>
+    <th>RMSE</th>
+  </tr>
+  <tr>
+    <td>LR</td>
+    <td>0.37</td>
+    <td>42.78</td>
+  </tr>
+  <tr>
+    <td>RFC</td>
+    <td>0.56</td>
+    <td>37.02</td>
+  </tr>
+  <tr>
+    <td>XGB</td>
+    <td>0.55</td>
+    <td>37.03</td>
+  </tr>
+</table>
 
-   | Model | R2 Score | RMSE  |
-   |-------|----------|-------|
-   | LR    | 0.20     | 46.3  |
-   | RFC   | 0.375    | 41.04 |
-   | XGB   | 0.36     | 41.05 |
+<h5>Test Data:</h5>
 
-    It can be clearly seen that the model is overfitting its performance drops on the test data drastically.
+<table>
+  <tr>
+    <th>Model</th>
+    <th>R2 Score</th>
+    <th>RMSE</th>
+  </tr>
+  <tr>
+    <td>LR</td>
+    <td>0.20</td>
+    <td>46.3</td>
+  </tr>
+  <tr>
+    <td>RFC</td>
+    <td>0.375</td>
+    <td>41.04</td>
+  </tr>
+  <tr>
+    <td>XGB</td>
+    <td>0.36</td>
+    <td>41.05</td>
+  </tr>
+</table>
 
-    Both Random Forest and XGB models were applied on all the four sets of data that were mentioned above in the pre-processing section and the results displayed are the average of the metrics that I obtained from the four datasets, but there was no significant change in the metrics on any particular set of data, so for further approaches, I considered the dataset in which the outliers and the negative Sourcing Cost values had been removed as outliers and negative Sourcing Values can distort the underlying distribution of the data and introduce noise into the model training process.
 
-    In this approach, I also performed Hyperparameter tuning of Random Forest Algorithm (max_depth, min_samples_leaf, min_samples_split, n_estimators) but even after that the results were not very significant. The best `r2_score` and `rmse` was 0.56 and 35.86 respectively which are almost the same as before doing it.
+  It can be clearly seen that the model is overfitting its performance drops on the test data drastically.
 
-    Overall, the ensemble models, particularly Random Forest and XGBoost, outperformed the Linear Regression model in predicting the sourcing costs. However, even the best-performing models (RFC and XGB) showed limitations in accurately predicting the sourcing costs, as evidenced by the low R2 scores and relatively high RMSE values on the test dataset indicating that another approach to the problem is required.
+  Both Random Forest and XGB models were applied on all the four sets of data that were mentioned above in the pre-processing section and the results displayed are the average of the metrics that I obtained from the four datasets, but there was no significant change in the metrics on any particular set of data, so for further approaches, I considered the dataset in which the outliers and the negative Sourcing Cost values had been removed as outliers and negative Sourcing Values can distort the underlying distribution of the data and introduce noise into the model training process.
 
-### 2nd approach:
+  In this approach, I also performed Hyperparameter tuning of Random Forest Algorithm (max_depth, min_samples_leaf, min_samples_split, n_estimators) but even after that the results were not very significant. The best `r2_score` and `rmse` was 0.56 and 35.86 respectively which are almost the same as before doing it.
+
+  Overall, the ensemble models, particularly Random Forest and XGBoost, outperformed the Linear Regression model in predicting the sourcing costs. However, even the best-performing models (RF and XGB) showed limitations in accurately predicting the sourcing costs, as evidenced by the low R2 scores and relatively high RMSE values on the test dataset indicating that another approach to the problem is required.
+
+### 2nd approach :
  In the second approach, I grouped the duplicate rows based on all the categorical columns. For each group, I aggregated the sourcing costs, summing them to obtain the total sourcing cost for that group. Additionally, I counted the quantity of each product within the group. This was achieved by counting the number of rows corresponding to each group and storing the counts in a new column named "Quantity." Finally, I calculated and created another feature as the average sourcing cost per unit by dividing the total sourcing cost by the quantity for each group which was then used in training of the model, Otherwise directly using the summed up sourcing cost column would have largely deviated from the original values.
 
-  This approach led to a very good `r2_score` of `0.95` on the training set and a `rmse` of `40.2` but again when applied on test data the model failed to perform well and the `r2_score` dropped down to `0.40`. The plot displays that the predictions and the original data points are not overlapping indicating the failure of the model to capture the true relationship of data.
+  In this approach both Random Forest and Xg_Boost regressor were used. The results are as follows - 
 
-### 3rd approach
+  <h4>Results Table:</h4>
+
+<h5>Train Data:</h5>
+
+<table>
+  <tr>
+    <th>Model</th>
+    <th>RMSE</th>
+    <th>R2 Score</th>
+  </tr>
+  <tr>
+    <td>RF</td>
+    <td>9.878</td>
+    <td>0.952</td>
+  </tr>
+  <tr>
+    <td>XG</td>
+    <td>9.886</td>
+    <td>0.952</td>
+  </tr>
+</table>
+
+<h5>Test Data:</h5>
+
+<table>
+  <tr>
+    <th>Model</th>
+    <th>RMSE</th>
+    <th>R2 Score</th>
+  </tr>
+  <tr>
+    <td>RF</td>
+    <td>40.435</td>
+    <td>0.397</td>
+  </tr>
+  <tr>
+    <td>XG</td>
+    <td>40.347</td>
+    <td>0.400</td>
+  </tr>
+</table>
+
+The results again show that the model is overfitting. It display good performance on train data but very poor performance on the test data.
+
+### 3rd approach : 
 In this approach I again didn’t consider the Area code but as this approach includes a time series approach so the Month of Sourcing column was effectively used in this case.
 
 So this approach included a combination of Time Series analytics and regression. As we had a datetime column in the dataset, I thought to make use of it and see if that would improve the model’s performance. So first of all as we do in a time series problem I made the index of the dataframe to the `Month of Sourcing` column, sorted the data frame according to the index and then created additional features for modeling. They include - 
@@ -111,10 +188,6 @@ So this approach included a combination of Time Series analytics and regression.
   - Month, Year, and Quarter from the index  -  For seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality present in the data.
     
   After this data preparation and feature engineering, Random Forest Algorithm and XGBoost Algorithm were applied for predicting the sourcing cost value. This approach gave the best result amongst all the approaches and models training. For Random Forest, the `R2 score` was `0.998` and `RMSE `was `1.78` on the training data, while on the test data, the `R2 score` was `0.98` and RMSE was `5.21`. The plot of the original sourcing values and the predicted values also shows that the Random Forest model was able to capture the relationship of the data, hence performing well. Similarly, for XGBoost, the `R2 score` was `0.993` and `RMSE` was `4.19` on the training data, while on the test data, the R2 score was `0.994` and `RMSE` was `3.89`. The plot of the original Sourcing Cost values and the predicted values also shows that the XGBoost model more prominently captured the patterns in the data. Another interesting observation was the time both alorithm took - XgBoost was way faster than Random Forest while training both.
-
-
-
-
 ## Final Approach: Time Series Analytics and Regression
 
 ### Feature Engineering:

@@ -1,6 +1,6 @@
 # Data Description
 
-Each row in the dataset represents the sourcing of one unit of a particular product combination. A unique product combination is defined by attributes in columns A, B, C, D, E, and F. Therefore, multiple rows with the same combination may exist in the training dataset, where each row represents the purchase of one unit.
+The dataset contains information about the sourcing of the products. Each row in the dataset represents the sourcing of one unit of a particular product combination. A unique product combination is defined by attributes in columns A, B, C, D, E, and F. Therefore, multiple rows with the same combination may exist in the training dataset, where each row represents the purchase of one unit.
 
 ### Dataset Split
 

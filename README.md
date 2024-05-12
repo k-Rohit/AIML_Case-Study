@@ -104,7 +104,7 @@ Overall, the adoption of a Time Series-based approach combined with Random Fores
 Using the rolling statistics, lagged sourcing cost values, quantile values and the month, year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therfore making this approach suitable for adoption.
 
 
-# Plots
+# Plots showing how different models are performing on test data.
 
 <div style="display: flex; justify-content: center; align-items: center;">
     <div style="margin-right: 20px;">

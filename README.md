@@ -6,91 +6,63 @@ Each row in the dataset represents the sourcing of one unit of a particular prod
 
 The training dataset spans from July 2020 to May 2021, while the test dataset consists of June 2021 data. The goal is to forecast or predict the sourcing quantities for June 2021 based on the 11 months of training data (from June 2020 to May 2021). In the test set, June 2021 contains only one value for each combination, serving as the target for prediction.
 
-# Methodology and Approach
+# Methodology and Approaches
 
-## 1. Data Understanding and Exploratory Data Analysis (EDA):
-- Explored the dataset dimensions/shape, checked for null values, and examined the data types of the features of the dataset.
-- Used the pandas describe() method to understand feature datatypes, identifying anomalies like the min value of the Sourcing Cost column being negative.
-- Conducted Univariate analysis and Multivariate Analysis, including frequency counts, box plots for outlier detection, and histplots for distribution of the Sourcing Cost column.
-- Investigated negative values in 'Sourcing Cost' and considered removal or replacement strategies.
+## 1. Data Understanding and Exploratory Data Analysis (EDA)
+- **Explored dataset dimensions/shape**, checked for null values, and examined the data types of the features.
+- **Identified anomalies** such as the min value of the 'Sourcing Cost' column being negative.
+- Conducted **Univariate and Multivariate Analysis**, including frequency counts, box plots for outlier detection, and histplots for the distribution of the 'Sourcing Cost' column.
+- **Investigated negative values** in 'Sourcing Cost' and considered optimum strategies for either removing or retaining them.
+- **Identified the presence of outliers** in the 'Sourcing Cost' column.
 
-## 2. Pre-processing:
-### Outlier Detection and Handling:
-- For Outlier detection, the IQR method was used, with two approaches:
-  - Removal/Trimming of the outliers from the data.
-  - Clipping outliers to lower and upper bound.
-- Resulted in four sets of data for further analysis. For both of these two approaches, I handled the negative sourcing cost values as follows:
+## 2. Pre-processing
 
-### Handling Negative Sourcing Cost Values:
-- For handling the negative values, two approaches were considered: removal of the negative values or taking the absolute value fo them.
-- Since the number of negative values was relatively small compared to the total dataset size, removing them was chosen as it had minimal impact.
+### Outlier Detection and Handling
+- Employed the **IQR (Inter Quartile Range) method** for outlier detection with two approaches:
+  - **Removal/Trimming** of the outliers from the data.
+  - **Clipping outliers** to lower and upper bounds.
+- Resulted in four sets of data for further analysis.
 
-So after pre-processing, I had four sets of data:
+### Handling Negative Sourcing Cost Values
+- Considered two approaches: **removal of negative values** or **taking the absolute values** of them.
+- Since the number of negative values was relatively small compared to the total dataset size, removing them did not significantly affect model performance.
 
-1. Dataset with outliers removed and negative values removed as well.
+### Post-Preprocessing Data Sets
+1. Dataset with outliers removed and negative values removed.
 2. Dataset with outliers removed but with the absolute values of the negative sourcing values.
-3. Dataset with outliers clipped to the upper and lower bound, and the negative values removed.
+3. Dataset with outliers clipped to the upper and lower bound, and negative values removed.
 4. Dataset with outliers clipped to the upper and lower bound, but with the absolute values of the negative sourcing values.
 
-## 3. Correlation and Association Analysis:
-- Multicollinearity is a significant concern in regression tasks, so I checked the correlation between the independent variables and the association between the independent variables and the dependent variable:
-  - Used the Kruskal test to assess the 'Sourcing Cost' association with categorical variables.
-  - Applied Cramer's V for measuring categorical variable associations, and identifying strong correlations.
-  - Identified and removed the 'Area' column due to strong correlations with other categorical variables, mitigating multicollinearity concerns.
+## 3. Analysis of Association Between Different Features
+- To ensure robustness in our regression model, I examined relationships between independent variables and between independent variables and the dependent variable 'Sourcing Cost':
+  - **Kruskal-Wallis test** was used to evaluate whether there are statistically significant differences in 'Sourcing Cost' across the categories of each categorical variable.
+  - **Cramer's V** was utilized to measure the strength of association among categorical variables.
+  - Removed the 'Area Code' column after identifying its strong association with other categorical variables to mitigate issues similar to multicollinearity.
 
-## 4. Modelling 
-   - ### 1st approach - 
-   The first approach involved implementing regression models such as Linear Regression (LR) and ensemble models like Random Forest Regressor (RFC) and XGBoost Regressor (XGB). These models were trained on the training data with the aim of predicting the sourcing costs. To ensure better generalizability and prevent overfitting, K-Fold cross-validation with 5 splits was applied. The reason for choosing the ensemble methods was because there were non - linearities in the data which couldn't be captured by simple regression models.
+## 4. Modelling and Evaluation on Test Data
 
-   #### Model Performance:
-   - Linear Regression (LR):
+### 1st Approach
+- Implemented regression models such as **Linear Regression (LR)** and ensemble models like **Random Forest Regressor (RFC)** and **XGBoost Regressor (XGB)**.
+- Employed **K-Fold cross-validation with 5 splits** to ensure model generalizability.
+- **Model Performance**:
+  - **LR**: Exhibited poor performance with an R2 score of 0.37 on training and 0.20 on test data.
+  - **RFC and XGB**: Performed better with higher R2 scores and lower RMSE values than LR.
 
-    The LR model exhibited poor performance both on the training and test datasets, with an R2 score of 0.37 on the training data and only 0.20 on the test data. Additionally, it had a relatively high RMSE of 42.78 on the training data and 46.3 on the test data. This suggests that the LR model struggled to capture the underlying relationship between the features and the target variable.
+  #### Results Table
+  | Model | Train R2 Score | Train RMSE | Test R2 Score | Test RMSE |
+  |-------|----------------|------------|---------------|-----------|
+  | LR    | 0.37           | 42.78      | 0.20          | 46.3      |
+  | RFC   | 0.56           | 37.02      | 0.375         | 41.04     |
+  | XGB   | 0.55           | 37.03      | 0.36          | 41.05     |
 
-- Random Forest Regressor (RFC) and XGBoost Regressor (XGB):
+### 2nd Approach
+- **Aggregated Sourcing Costs** by summing them for each group of duplicate rows based on categorical columns and created a new feature 'Average Sourcing Cost per Unit'.
+- Achieved a **r2_score of 0.95 on the training set** but only **0.40 on the test set**.
 
-    In contrast, both RFC and XGB models performed significantly better than LR. They demonstrated higher R2 scores on both the training and test datasets, indicating better fitting to the data. RFC achieved an R2 score of 0.56 on the training data and 0.375 on the test data, with corresponding RMSE values of 37.02 and 41.04. Similarly, XGB achieved R2 scores of 0.55 on the training data and 0.36 on the test data, with RMSE values of 37.03 and 41.05, respectively.
-  
-   ### Results Table - 
+### 3rd Approach
+- Combined **Time Series analytics with regression** using the 'Month of Sourcing' as the dataframe index and creating additional features like lagged values and rolling statistics.
+- **Random Forest Algorithm** predicted sourcing cost values with an R2 score of 0.99 and RMSE of 1.78 on training data and R2 score of 0.98 and RMSE of 5.21 on test data.
 
-  #### Train Data:
-
-      | Model | R2 Score | RMSE  |
-      |-------|----------|-------|
-      | LR    | 0.37     | 42.78 |
-      | RFC   | 0.56     | 37.02 |
-      | XGB   | 0.55     | 37.03 |
-
-  #### Test Data:
-
-      | Model | R2 Score | RMSE  |
-      |-------|----------|-------|
-      | LR    | 0.20     | 46.3  |
-      | RFC   | 0.375    | 41.04 |
-      | XGB   | 0.36     | 41.05 |
-
-    Overall, the ensemble models, particularly Random Forest and XGBoost, outperformed the Linear Regression model in predicting the sourcing costs. However, even the best-performing models (RFC and XGB) showed limitations in accurately predicting the sourcing costs, as evidenced by the moderate R2 scores and relatively high RMSE values on the test dataset
-
-   - ### 2nd approach - 
-   In the second approach, I grouped the duplicate rows based on all the categorical columns. For each group, I aggregated the sourcing costs, summing them to obtain the total sourcing cost for that group. Additionally, I counted the quantity of each product within the group. This was achieved by counting the number of rows corresponding to each group and storing the counts in a new column named "Quantity." Finally, I calculated and created another feature as the average sourcing cost per unit by dividing the total sourcing cost by the quantity for each group which was then used in training of the model, Otherwise directly using the summed-up sourcing cost column would have largely deviated from the original values.
-
-   This approach led to a very good `r2_score` of `0.95` on the training set and a `rmse` of `40.2` but again when applied on test data the model failed to perform well and the `r2_score` dropped down to `0.40`. The plots below display that the predictions and the original data points are not overlapping indicating the failure of the model to capture the true relationship of data.
-
-   - ### 3rd approach
-   This approach included a combination of Time Series analytics and regression. As we had a datetime column in the dataset, I thought to make use of it. So first of all as we do in a time series problem made the index of the dataframe to `Month of Sourcing` column and then created additional features for modelling
-    - Lagged features for the 'Sourcing Cost' considering the past three months
-      - To capture the historical values of sourcing costs.These lagged features will allow the model to consider the effect of past sourcing costs on the current value, which can improve prediction accuracy in time series analysis.
-
-    - Rolling mean and standard deviation for the past 3 months
-      - To capture the trend and variability in sourcing costs over a rolling window of 3 months, providing additional information for the model to learn from.
-
-    - Additional rolling quantiles
-      - For understanding  the spread and central tendency of the data.
-
-    - Month, Year, and Quarter from the index
-      -  For seasonal analysis and trend identification at different time granularities, aiding in understanding the temporal patterns and cyclicality present in the data.
-    
-    After this data preparation Random Forest Algorithm for applied to predict the sourcing cost value. This approach gave the best results amongst all. An `r2_score` of `0.99` and  `rmse` of `1.78` on the training data and `r2_score` of `0.98` and `rmse` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
 
 # Final Approach: Time Series Analytics and Regression
 

@@ -44,8 +44,8 @@ For Outlier detection, the IQR (InterQuartile Range) method was used, with two a
   - Cramer's V was utilized to measure the strength of association among categorical variables, identifying strong associations that might affect model interpretation.
   - I removed the 'Area Code' column after identifying its strong association with other categorical variables, which could lead to issues similar to multicollinearity when categorical variables are converted to dummy variables for regression analysis.
 
-## 6. Modeling
-### Data Preparation for modeling:
+## 6. Modelling
+### Data Preparation for modelling:
 After removing the outliers and the negative sourcing values, I dropped the Area Code and the Month of Sourcing Column. The reason for dropping area code was as previously mentioned that it was strongly associated with the other categorical variables which might have hampered  the model’s performance. The reason behind removing the Month of Sourcing Column was that in the training data we had 11 months but in test data we just have 1 month so if we consider one hot encoding it the number of features in the train set would be greater than in the test set which would give error when predicting on the test set. Also if Label Encoder is used there would be 11 different values in the train set but a single value in the test set which could again cause discrepancy and that will hamper the performance of the model.
 
 Now lets see the different approaches adopted - 
@@ -107,44 +107,58 @@ So this approach included a combination of Time Series analytics and regression.
   After this data preparation and feature engineering, Random Forest Algorithm and XGBoost Algorithm were applied for predicting the sourcing cost value. This approach gave the best result amongst all the approaches and models training. For Random Forest, the `R2 score` was `0.998` and `RMSE `was `1.78` on the training data, while on the test data, the `R2 score` was `0.98` and RMSE was `5.21`. The plot of the original sourcing values and the predicted values also shows that the Random Forest model was able to capture the relationship of the data, hence performing well. Similarly, for XGBoost, the `R2 score` was `0.993` and `RMSE` was `4.19` on the training data, while on the test data, the R2 score was `0.994` and `RMSE` was `3.89`. The plot of the original Sourcing Cost values and the predicted values also shows that the XGBoost model more prominently captured the patterns in the data. Another interesting observation was the time both alorithm took - XgBoost was way faster than Random Forest while training both.
 
 
-# Final Approach: Time Series Analytics and Regression
+## Final Approach: Time Series Analytics and Regression
 
-### Data Preprocessing for Time Series Analysis:
+### Feature Engineering:
+- Prior to feature engineering, all outliers and negative Sourcing Cost values were eliminated from the dataset. Additionally, the 'Area Code' column, which exhibited strong correlations with other features, was dropped to streamline the data.
 
-- Transformed dataset into time series format by setting index to 'Month of Sourcing'.
-- Created lagged features for 'Sourcing Cost' to capture historical values.
-- Calculated rolling statistics to understand trend and variability over time.
-- Extracted additional temporal features to capture seasonal patterns and trends.
+- The dataset was reformatted into a time series structure by indexing it with the 'Month of Sourcing' column. Subsequently, the data was sorted according to this index, facilitating chronological analysis.
+
+- Lagged features for 'Sourcing Cost' were generated to capture historical trends. These lagged features enable the model to assimilate past sourcing cost values, enhancing its understanding of temporal dynamics.
+
+- Rolling mean and standard deviation calculations over a 3-month window were performed to discern short-term trends and variability in sourcing costs. These rolling statistics offer insights into the distributional characteristics of the data and aid in capturing fluctuations over time.
+
+- Further temporal features, such as year and month, were extracted from the index. By incorporating these features, the model gains the ability to detect seasonality and cyclical patterns inherent in the data, thereby enriching its predictive capabilities.
 
 ### Model Selection and Training:
 
-- Applied Random Forest Algorithm for its effectiveness in handling nonlinear relationships and good generalisation capabilities
-- Trained the model on a preprocessed dataset containing lagged features, rolling statistics, and temporal attributes.
+Both Random Forest Regressor and XGBoost Regressor models were considered for this approach. Random Forest Regressor was initially selected due to its ability to handle non-linear relationships, high-dimensional datasets, and interactions between features. However, upon applying XGBoost Regressor, it was found that XGBoost performed even better and its way too fast than Random Forest in training due to its parallel processing ability.
 
 ### Model Evaluation and Performance:
+- For evaluation, I used the r2_score metric and the rmse metric as in the problem statement we wanted to reduce the difference between the predicted and the original Sourcing Cost and rmse was more interpretable.
+- I achieved a high R2 score and low RMSE on both training and test datasets, which was an indicative strong fit and generalization.
+- For Random Forest - `R2_score` of `0.998` and  `RMSE` of `1.78` on the training data and `R2_score` of `0.98` and `RMSE` of `5.21` on test data. The plot of the original Sourcing Cost values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
+- For XgBoost - `R2_score` of `0.993` and  `RMSE` of `4.19` on the training data and `R2_score` of `0.994` and `RMSE` of `3.89` on test data. The plot of the original Sourcing Cost values and the predicted values also shows that xgb model is more prominently capturing the patterns in the data.
 
-- Achieved a high R2 score and low RMSE on both training and test datasets, indicating strong fit and generalization. 
-`R2_score` of `0.99` and  `RMSE` of `1.78` on the training data and `R2_score` of `0.98` and `RMSE` of `5.21` on test data. The plot of the original sourcing values and the predicted also shows that this time the model was able to capture the relationship of the data, hence performing well.
-- Accurate predictions based on historical data and temporal patterns provided valuable insights for decision-making.
+Result Table - 
+
+| Model               | Train MSE | Train R^2 Score | Train RMSE | Test R^2 Score | Test RMSE |
+|---------------------|-----------|-----------------|------------|----------------|-----------|
+| Random Forest (RF)  | 3.178     | 0.999           | 1.783      | 0.990          | 5.211     |
+| XGBoost (XGB)       | 17.585    | 0.994           | 4.193      | 0.994          | 3.891     |
+
+
 
 ### Interpretation and Insights:
 
-Overall, the adoption of a Time Series-based approach combined with Random Forest Regression proved highly effective in predicting sourcing costs and understanding the true relationship of the data.
+Overall, the adoption of a Time Series-based approach combined with Random Forest and XgBoost Regression models proved highly effective in predicting sourcing costs and understanding the true relationship of the data as in all other approaches the models performed well on training data but very poorly in the test data, but the model obtained from this approach was able to perform well both on train as well as test data.
 
-### Why Time Series Analytics and Regression?
+### Why Time Series Analytics and Regression??
 
-1. **Sequential Nature of Data**: Each row represented the sourcing cost of a product over different months, making it suitable for time series analysis and applying the time series techniques.
+1. **Sequential Nature of Data**: Each row represents the sourcing of a product over different months, inherently making the data sequential. This characteristic makes it ideal for time series analysis, where techniques are specifically tailored to leverage data ordered over time.
    
-2. **Temporal Patterns and Trends**: Leveraged the temporal order of data which helped to capture underlying patterns and trends influencing the sourcing costs.
+2. **Temporal Patterns and Trends**: The temporal order of data is pivotal in uncovering patterns and trends that influence sourcing costs. Time series analysis helped the model in identifying these trends and making accurate forecasts based on historical data.
    
-3. **Historical Insights**: The use of lagged features captured historical sourcing costs, allowing the model to learn from past observations.
+3. **Historical Insights**: Utilizing lagged features allowed the model to incorporate historical sourcing costs, which are crucial for predicting future values. This approach helped the model to learn from past trends and improve its forecasting accuracy.
    
-4. **Seasonality and Cyclicality**: Extraction of temporal features like month, year, and quarter enabled capturing seasonal patterns and trends at different granularities.
-   
-5. **Model Selection**: Random Forest Regression was chosen for its robustness in handling nonlinear relationships and it being a ensemble method it handles overfitting and is good in generalisation to unseen data.
+4. **Seasonality and Cyclicality**: By extracting temporal features like month, year, and quarter, the model was able to identify and utilize seasonal patterns and cyclic trends.
 
+### Why did it perform so well??
 
-Using the rolling statistics, lagged sourcing cost values, quantile values and the month, and year resulted in an effective model which was able to predict the Sourcing Cost in the test data as close to the original data and therefore making this approach suitable for adoption.
+By leveraging the datetime column and incorporating lagged features, rolling statistics, and additional temporal features such as month, year, and quarter, the model gained a comprehensive understanding of the data's temporal dynamics. For instance, the lagged features allowed the model to capture the influence of past sourcing costs on current values, enabling it to discern patterns and trends over time. Similarly, the inclusion of rolling statistics, such as rolling mean and standard deviation, provided insights into short-term variations and trends in sourcing costs. Additionally, extracting temporal features like month, year, and quarter facilitated the detection of seasonal patterns and cyclicality within the data.
+
+By incorporating these time series features, the model was equipped with a rich set of information to make accurate predictions. Overall, the effective utilization of time series features empowered the model to understand and adapt to the underlying patterns and dynamics of the data, resulting in accurate predictions of sourcing costs on the test data.
+
 
 
 # Plots showing how different models are performing on test data.
